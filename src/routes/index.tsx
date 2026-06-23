@@ -51,8 +51,7 @@ function Hero() {
     <section className="rule-bottom mx-auto max-w-7xl px-6 py-20 md:py-32">
       <p className="eyebrow text-muted-foreground">Vol. 01 — Invoicing, redesigned for freelancers</p>
       <h1 className="display mt-6 text-[12vw] leading-[0.92] md:text-[8.5rem]">
-        Get paid.<br />
-        <span className="italic text-accent">Politely.</span>
+        Get paid.<br /><span className="italic text-accent">Politely.</span>
       </h1>
       <div className="mt-10 grid gap-10 md:grid-cols-3">
         <div className="md:col-span-1">
