@@ -108,7 +108,7 @@
     font-weight: 600;
     letter-spacing: -0.035em;
   }
-  ::selection { background: var(--blood); color: var(--ink); }
+  ::selection { background: var(--blood); color: var(--paper); }
 }
 
 @layer components {
