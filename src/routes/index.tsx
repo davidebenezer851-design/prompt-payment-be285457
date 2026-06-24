@@ -159,7 +159,7 @@ function Showcase() {
     <section id="features" className="border-b border-rule">
       <div className="mx-auto max-w-7xl px-6 py-24">
         <div className="grid gap-12 md:grid-cols-12 md:items-center">
-          <div className="md:col-span-5">
+          <div className="md:col-span-5 reveal">
             <p className="eyebrow text-accent">§ Designed, not generated</p>
             <h2 className="display mt-4 text-5xl md:text-6xl">
               Invoices that don't look like a <span className="display-serif text-accent">spreadsheet</span>.
@@ -173,7 +173,7 @@ function Showcase() {
               ))}
             </ul>
           </div>
-          <div className="md:col-span-7">
+          <div className="md:col-span-7 reveal">
             <FakeInvoice />
           </div>
         </div>
