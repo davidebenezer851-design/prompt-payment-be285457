@@ -131,7 +131,7 @@ function Sections() {
   return (
     <section id="how" className="border-b border-rule">
       <div className="mx-auto max-w-7xl px-6 py-24">
-        <div className="grid gap-2 md:grid-cols-12">
+        <div className="grid gap-2 md:grid-cols-12 reveal">
           <p className="eyebrow text-accent md:col-span-3">§ The Pipeline</p>
           <h2 className="display md:col-span-9 text-5xl md:text-7xl">
             From typed to <span className="display-serif text-accent">paid</span>,<br />in four moves.
