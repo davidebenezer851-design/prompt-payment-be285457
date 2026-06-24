@@ -248,7 +248,7 @@ function Pricing() {
         </div>
         <div className="mt-16 grid gap-6 md:grid-cols-3">
           {tiers.map((t) => (
-            <div key={t.name} className={`relative flex flex-col p-8 transition-all ${t.featured ? "bg-accent text-accent-foreground glow-blood" : "bg-card border border-rule hover:border-foreground/40"}`}>
+            <div key={t.name} className={`reveal relative flex flex-col p-8 transition-all hover:-translate-y-1 ${t.featured ? "bg-accent text-accent-foreground glow-blood" : "bg-card border border-rule hover:border-foreground/40"}`}>
               {t.featured && (
                 <span className="absolute -top-3 left-8 bg-foreground text-background px-2 py-0.5 text-[10px] uppercase tracking-widest font-medium">Recommended</span>
               )}
