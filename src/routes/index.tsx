@@ -240,7 +240,7 @@ function Pricing() {
   return (
     <section id="pricing" className="border-b border-rule">
       <div className="mx-auto max-w-7xl px-6 py-24">
-        <div className="grid gap-2 md:grid-cols-12">
+        <div className="grid gap-2 md:grid-cols-12 reveal">
           <p className="eyebrow text-accent md:col-span-3">§ Pricing</p>
           <h2 className="display md:col-span-9 text-5xl md:text-7xl">
             Honest. <span className="display-serif text-accent">Flat.</span>
