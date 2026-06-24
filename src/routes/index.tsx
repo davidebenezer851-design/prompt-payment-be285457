@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, Check, Zap, Send, BadgeDollarSign, Bell } from "lucide-react";
+import { useReveal } from "@/hooks/use-reveal";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -12,6 +13,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Landing() {
+  useReveal();
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Nav />
@@ -58,17 +60,19 @@ function Hero() {
       <div className="pointer-events-none absolute -left-20 bottom-0 h-[24rem] w-[24rem] rounded-full bg-accent/15 blur-[120px]" />
 
       <div className="relative mx-auto max-w-7xl px-6 pt-20 pb-24 md:pt-32 md:pb-32">
-        <div className="inline-flex items-center gap-2 border border-rule bg-card/50 px-3 py-1 text-xs text-muted-foreground backdrop-blur">
+        <div className="inline-flex items-center gap-2 border border-rule bg-card/50 px-3 py-1 text-xs text-muted-foreground backdrop-blur reveal">
           <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
           v01 — Built for freelancers who'd rather be working
         </div>
 
-        <h1 className="display mt-8 text-[15vw] md:text-[10rem] leading-[0.85]">
-          Get paid.<br />
-          <span className="display-serif text-accent">Politely.</span>
+        <h1 className="display mt-8 text-[15vw] md:text-[10rem] leading-[0.92]">
+          <span className="hero-line"><span>Get paid.</span></span>
+          <span className="hero-line delay-2">
+            <span className="display-serif hero-shimmer hero-cursor">Politely.</span>
+          </span>
         </h1>
 
-        <div className="mt-12 grid gap-10 md:grid-cols-12 md:items-end">
+        <div className="mt-12 grid gap-10 md:grid-cols-12 md:items-end reveal">
           <p className="md:col-span-5 text-lg leading-relaxed text-muted-foreground">
             InstaGig turns five seconds of typing into an invoice your client <em className="text-foreground not-italic">actually</em> wants to pay — then chases the late ones so you don't have to.
           </p>
@@ -85,7 +89,7 @@ function Hero() {
         </div>
 
         {/* stat row */}
-        <div className="mt-20 grid grid-cols-2 gap-px bg-rule md:grid-cols-4">
+        <div className="mt-20 grid grid-cols-2 gap-px bg-rule md:grid-cols-4 reveal">
           {[
             { k: "60s", v: "to draft an invoice" },
             { k: "0%", v: "platform fee" },
@@ -127,7 +131,7 @@ function Sections() {
   return (
     <section id="how" className="border-b border-rule">
       <div className="mx-auto max-w-7xl px-6 py-24">
-        <div className="grid gap-2 md:grid-cols-12">
+        <div className="grid gap-2 md:grid-cols-12 reveal">
           <p className="eyebrow text-accent md:col-span-3">§ The Pipeline</p>
           <h2 className="display md:col-span-9 text-5xl md:text-7xl">
             From typed to <span className="display-serif text-accent">paid</span>,<br />in four moves.
@@ -135,7 +139,7 @@ function Sections() {
         </div>
         <div className="mt-16 grid gap-px bg-rule md:grid-cols-2">
           {steps.map(({ n, t, d, icon: Icon }) => (
-            <div key={n} className="group relative flex flex-col gap-4 bg-background p-10 hover:bg-card transition-colors">
+            <div key={n} className="reveal group relative flex flex-col gap-4 bg-background p-10 hover:bg-card transition-colors">
               <div className="flex items-center justify-between">
                 <span className="display text-5xl text-muted-foreground/40 group-hover:text-accent transition-colors">{n}</span>
                 <Icon className="h-5 w-5 text-accent" />
@@ -155,7 +159,7 @@ function Showcase() {
     <section id="features" className="border-b border-rule">
       <div className="mx-auto max-w-7xl px-6 py-24">
         <div className="grid gap-12 md:grid-cols-12 md:items-center">
-          <div className="md:col-span-5">
+          <div className="md:col-span-5 reveal">
             <p className="eyebrow text-accent">§ Designed, not generated</p>
             <h2 className="display mt-4 text-5xl md:text-6xl">
               Invoices that don't look like a <span className="display-serif text-accent">spreadsheet</span>.
@@ -169,7 +173,7 @@ function Showcase() {
               ))}
             </ul>
           </div>
-          <div className="md:col-span-7">
+          <div className="md:col-span-7 reveal">
             <FakeInvoice />
           </div>
         </div>
@@ -236,7 +240,7 @@ function Pricing() {
   return (
     <section id="pricing" className="border-b border-rule">
       <div className="mx-auto max-w-7xl px-6 py-24">
-        <div className="grid gap-2 md:grid-cols-12">
+        <div className="grid gap-2 md:grid-cols-12 reveal">
           <p className="eyebrow text-accent md:col-span-3">§ Pricing</p>
           <h2 className="display md:col-span-9 text-5xl md:text-7xl">
             Honest. <span className="display-serif text-accent">Flat.</span>
@@ -244,7 +248,7 @@ function Pricing() {
         </div>
         <div className="mt-16 grid gap-6 md:grid-cols-3">
           {tiers.map((t) => (
-            <div key={t.name} className={`relative flex flex-col p-8 transition-all ${t.featured ? "bg-accent text-accent-foreground glow-blood" : "bg-card border border-rule hover:border-foreground/40"}`}>
+            <div key={t.name} className={`reveal relative flex flex-col p-8 transition-all hover:-translate-y-1 ${t.featured ? "bg-accent text-accent-foreground glow-blood" : "bg-card border border-rule hover:border-foreground/40"}`}>
               {t.featured && (
                 <span className="absolute -top-3 left-8 bg-foreground text-background px-2 py-0.5 text-[10px] uppercase tracking-widest font-medium">Recommended</span>
               )}
@@ -271,7 +275,7 @@ function CTA() {
     <section className="relative border-b border-rule overflow-hidden">
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-accent/10 to-transparent" />
       <div className="pointer-events-none absolute left-1/2 top-1/2 h-[40rem] w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/20 blur-[160px]" />
-      <div className="relative mx-auto max-w-7xl px-6 py-32 text-center">
+      <div className="relative mx-auto max-w-7xl px-6 py-32 text-center reveal">
         <p className="eyebrow text-accent">§ The last line</p>
         <h2 className="display mx-auto mt-6 max-w-4xl text-5xl md:text-8xl">
           Your work is <span className="display-serif text-accent">good</span>.<br />Your invoices should be too.
