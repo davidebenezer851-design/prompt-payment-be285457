@@ -275,7 +275,7 @@ function CTA() {
     <section className="relative border-b border-rule overflow-hidden">
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-accent/10 to-transparent" />
       <div className="pointer-events-none absolute left-1/2 top-1/2 h-[40rem] w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/20 blur-[160px]" />
-      <div className="relative mx-auto max-w-7xl px-6 py-32 text-center">
+      <div className="relative mx-auto max-w-7xl px-6 py-32 text-center reveal">
         <p className="eyebrow text-accent">§ The last line</p>
         <h2 className="display mx-auto mt-6 max-w-4xl text-5xl md:text-8xl">
           Your work is <span className="display-serif text-accent">good</span>.<br />Your invoices should be too.
