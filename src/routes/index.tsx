@@ -139,7 +139,7 @@ function Sections() {
         </div>
         <div className="mt-16 grid gap-px bg-rule md:grid-cols-2">
           {steps.map(({ n, t, d, icon: Icon }) => (
-            <div key={n} className="group relative flex flex-col gap-4 bg-background p-10 hover:bg-card transition-colors">
+            <div key={n} className="reveal group relative flex flex-col gap-4 bg-background p-10 hover:bg-card transition-colors">
               <div className="flex items-center justify-between">
                 <span className="display text-5xl text-muted-foreground/40 group-hover:text-accent transition-colors">{n}</span>
                 <Icon className="h-5 w-5 text-accent" />
