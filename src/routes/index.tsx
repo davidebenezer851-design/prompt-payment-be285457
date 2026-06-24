@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, Check, Zap, Send, BadgeDollarSign, Bell } from "lucide-react";
+import { useReveal } from "@/hooks/use-reveal";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -12,6 +13,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Landing() {
+  useReveal();
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Nav />
