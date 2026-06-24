@@ -66,10 +66,15 @@ function Hero() {
         </div>
 
         <h1 className="display mt-8 text-[15vw] md:text-[10rem] leading-[0.92]">
-          <span className="hero-line"><span>Get paid.</span></span>
-          <span className="hero-line delay-2">
-            <span className="display-serif hero-shimmer hero-cursor">Politely.</span>
+          <span className="block">
+            Get{" "}
+            <span className="bounce-word">
+              <span>p</span><span>a</span><span>i</span><span>d</span>
+              <span className="bounce-dot" aria-hidden="true" />
+            </span>
+            .
           </span>
+          <span className="block display-serif text-accent">Politely.</span>
         </h1>
 
         <div className="mt-12 grid gap-10 md:grid-cols-12 md:items-end reveal">

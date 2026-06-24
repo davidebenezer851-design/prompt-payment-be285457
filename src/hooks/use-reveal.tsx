@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 
 /**
- * Adds `.is-visible` to any element with `.reveal` once it enters the viewport.
- * Mount once at the top of a page.
+ * Toggles `.is-visible` on `.reveal` elements as they enter/leave the viewport.
+ * Recurring — fades back out when scrolled away, fades in on return.
  */
 export function useReveal() {
   useEffect(() => {
@@ -20,11 +20,12 @@ export function useReveal() {
         for (const entry of entries) {
           if (entry.isIntersecting) {
             entry.target.classList.add("is-visible");
-            io.unobserve(entry.target);
+          } else {
+            entry.target.classList.remove("is-visible");
           }
         }
       },
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
+      { threshold: [0, 0.15, 0.3], rootMargin: "0px 0px -10% 0px" },
     );
 
     els.forEach((el) => io.observe(el));
