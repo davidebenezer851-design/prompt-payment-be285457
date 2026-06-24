@@ -5,8 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Freelancify — Obsidian / Blood
- * Pure black, bone white, blood red. Brutal modern display.
+ * InstaGig — Obsidian / Lemon
+ * Pure black, bone white, bright lemon green. Brutal modern display.
  */
 
 @theme inline {
@@ -58,26 +58,26 @@
   --radius: 0.125rem;
 
   /* Obsidian palette */
-  --paper: oklch(0.08 0.005 20);            /* near-black bg */
-  --ink: oklch(0.97 0.005 80);              /* bone white */
-  --blood: oklch(0.58 0.22 27);             /* blood red */
+  --paper: oklch(0.08 0.005 150);           /* near-black bg */
+  --ink: oklch(0.97 0.005 110);             /* bone white */
+  --blood: oklch(0.92 0.24 122);            /* bright lemon green */
   --ember: var(--blood);                     /* alias */
-  --rule: oklch(0.22 0.01 30);              /* hairline */
+  --rule: oklch(0.22 0.01 130);             /* hairline */
 
   --background: var(--paper);
   --foreground: var(--ink);
-  --card: oklch(0.11 0.008 25);
+  --card: oklch(0.11 0.008 130);
   --card-foreground: var(--ink);
   --popover: var(--card);
   --popover-foreground: var(--ink);
   --primary: var(--blood);
-  --primary-foreground: var(--ink);
-  --secondary: oklch(0.16 0.01 25);
+  --primary-foreground: oklch(0.08 0.005 150);
+  --secondary: oklch(0.16 0.01 130);
   --secondary-foreground: var(--ink);
-  --muted: oklch(0.14 0.008 25);
-  --muted-foreground: oklch(0.62 0.01 30);
+  --muted: oklch(0.14 0.008 130);
+  --muted-foreground: oklch(0.62 0.01 130);
   --accent: var(--blood);
-  --accent-foreground: var(--ink);
+  --accent-foreground: oklch(0.08 0.005 150);
   --destructive: oklch(0.55 0.22 27);
   --destructive-foreground: var(--ink);
   --border: var(--rule);
@@ -108,7 +108,7 @@
     font-weight: 600;
     letter-spacing: -0.035em;
   }
-  ::selection { background: var(--blood); color: var(--ink); }
+  ::selection { background: var(--blood); color: var(--paper); }
 }
 
 @layer components {

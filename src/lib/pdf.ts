@@ -145,7 +145,7 @@ export function generateInvoicePdf(invoice: Invoice, sender: Sender) {
   doc.setFont("helvetica", "normal");
   doc.setFontSize(8);
   doc.setTextColor(150);
-  doc.text("Powered by Freelancify", w / 2, doc.internal.pageSize.getHeight() - 24, { align: "center" });
+  doc.text("Powered by InstaGig", w / 2, doc.internal.pageSize.getHeight() - 24, { align: "center" });
 
   doc.save(`${invoice.invoice_number}.pdf`);
 }

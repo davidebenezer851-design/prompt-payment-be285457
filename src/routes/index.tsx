@@ -4,7 +4,7 @@ import { ArrowUpRight, Check, Zap, Send, BadgeDollarSign, Bell } from "lucide-re
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Freelancify — Invoices that get paid." },
+      { title: "InstaGig — Invoices that get paid." },
       { name: "description", content: "Send a beautiful invoice in 60 seconds. Get paid by card. Let us chase the late ones — politely, automatically." },
     ],
   }),
@@ -32,7 +32,7 @@ function Nav() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <Link to="/" className="flex items-center gap-2 font-display text-xl font-semibold tracking-tight">
           <span className="grid h-7 w-7 place-items-center bg-accent text-accent-foreground text-[11px] font-bold">F</span>
-          Freelancify
+          InstaGig
         </Link>
         <nav className="hidden gap-8 text-sm text-muted-foreground md:flex">
           <a href="#how" className="hover:text-foreground transition-colors">How it works</a>
@@ -70,7 +70,7 @@ function Hero() {
 
         <div className="mt-12 grid gap-10 md:grid-cols-12 md:items-end">
           <p className="md:col-span-5 text-lg leading-relaxed text-muted-foreground">
-            Freelancify turns five seconds of typing into an invoice your client <em className="text-foreground not-italic">actually</em> wants to pay — then chases the late ones so you don't have to.
+            InstaGig turns five seconds of typing into an invoice your client <em className="text-foreground not-italic">actually</em> wants to pay — then chases the late ones so you don't have to.
           </p>
           <div className="md:col-span-4 md:col-start-9 flex flex-col gap-3">
             <Link to="/auth" search={{ mode: "signup" }} className="group flex items-center justify-between bg-accent px-5 py-4 text-accent-foreground hover:bg-foreground hover:text-background transition-colors glow-blood">
@@ -161,7 +161,7 @@ function Showcase() {
               Invoices that don't look like a <span className="display-serif text-accent">spreadsheet</span>.
             </h2>
             <p className="mt-6 text-muted-foreground leading-relaxed">
-              Every Freelancify invoice is typeset with intent. Clean hierarchy, no clipart, no Comic Sans. Your client sees a document that says you take your work seriously — and pays it accordingly.
+              Every InstaGig invoice is typeset with intent. Clean hierarchy, no clipart, no Comic Sans. Your client sees a document that says you take your work seriously — and pays it accordingly.
             </p>
             <ul className="mt-8 space-y-3 text-sm">
               {["Auto-numbered & dated", "Tax + discount logic baked in", "Currency-aware for global clients", "One-click PDF export"].map((f) => (
@@ -288,7 +288,7 @@ function Footer() {
   return (
     <footer className="mx-auto max-w-7xl px-6 py-12 text-sm text-muted-foreground">
       <div className="flex flex-wrap justify-between gap-4">
-        <p>© {new Date().getFullYear()} Freelancify.</p>
+        <p>© {new Date().getFullYear()} InstaGig.</p>
         <p>Set in Space Grotesk, Instrument Serif & Inter.</p>
       </div>
     </footer>

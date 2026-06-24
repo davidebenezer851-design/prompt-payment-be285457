@@ -29,7 +29,7 @@ function AppShell() {
     <div className="min-h-screen bg-background text-foreground">
       <header className="rule-bottom sticky top-0 z-30 bg-background/95 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <Link to="/app" className="font-serif text-2xl tracking-tight">Freelancify<span className="text-accent">.</span></Link>
+          <Link to="/app" className="font-serif text-2xl tracking-tight">InstaGig<span className="text-accent">.</span></Link>
           <nav className="flex items-center gap-6 text-sm">
             <Link to="/app" className="hover:text-accent" activeOptions={{ exact: true }} activeProps={{ className: "text-accent" }}>Invoices</Link>
             <Link to="/app/new" className="hover:text-accent" activeProps={{ className: "text-accent" }}>New</Link>
