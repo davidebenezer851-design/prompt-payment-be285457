@@ -11,8 +11,8 @@ export const Route = createFileRoute("/auth")({
   validateSearch: search,
   head: () => ({
     meta: [
-      { title: "Sign in — Freelancify" },
-      { name: "description", content: "Sign in or create your Freelancify account." },
+      { title: "Sign in — InstaGig" },
+      { name: "description", content: "Sign in or create your InstaGig account." },
     ],
   }),
   component: AuthPage,
@@ -70,7 +70,7 @@ function AuthPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="rule-bottom mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <Link to="/" className="font-serif text-2xl tracking-tight">Freelancify<span className="text-accent">.</span></Link>
+        <Link to="/" className="font-serif text-2xl tracking-tight">InstaGig<span className="text-accent">.</span></Link>
         <button onClick={() => setMode(mode === "signin" ? "signup" : "signin")} className="text-sm hover:text-accent">
           {mode === "signin" ? "Need an account?" : "Have an account?"}
         </button>
