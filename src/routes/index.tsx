@@ -60,17 +60,19 @@ function Hero() {
       <div className="pointer-events-none absolute -left-20 bottom-0 h-[24rem] w-[24rem] rounded-full bg-accent/15 blur-[120px]" />
 
       <div className="relative mx-auto max-w-7xl px-6 pt-20 pb-24 md:pt-32 md:pb-32">
-        <div className="inline-flex items-center gap-2 border border-rule bg-card/50 px-3 py-1 text-xs text-muted-foreground backdrop-blur">
+        <div className="inline-flex items-center gap-2 border border-rule bg-card/50 px-3 py-1 text-xs text-muted-foreground backdrop-blur reveal">
           <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
           v01 — Built for freelancers who'd rather be working
         </div>
 
-        <h1 className="display mt-8 text-[15vw] md:text-[10rem] leading-[0.85]">
-          Get paid.<br />
-          <span className="display-serif text-accent">Politely.</span>
+        <h1 className="display mt-8 text-[15vw] md:text-[10rem] leading-[0.92]">
+          <span className="hero-line"><span>Get paid.</span></span>
+          <span className="hero-line delay-2">
+            <span className="display-serif hero-shimmer hero-cursor">Politely.</span>
+          </span>
         </h1>
 
-        <div className="mt-12 grid gap-10 md:grid-cols-12 md:items-end">
+        <div className="mt-12 grid gap-10 md:grid-cols-12 md:items-end reveal">
           <p className="md:col-span-5 text-lg leading-relaxed text-muted-foreground">
             InstaGig turns five seconds of typing into an invoice your client <em className="text-foreground not-italic">actually</em> wants to pay — then chases the late ones so you don't have to.
           </p>
@@ -87,7 +89,7 @@ function Hero() {
         </div>
 
         {/* stat row */}
-        <div className="mt-20 grid grid-cols-2 gap-px bg-rule md:grid-cols-4">
+        <div className="mt-20 grid grid-cols-2 gap-px bg-rule md:grid-cols-4 reveal">
           {[
             { k: "60s", v: "to draft an invoice" },
             { k: "0%", v: "platform fee" },
