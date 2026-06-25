@@ -1,109 +1,81 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { money, shortDate } from "@/lib/format";
-import { Plus } from "lucide-react";
+import { Briefcase, MessageSquare, Users, FileText, ArrowUpRight } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/app/")({
-  component: InvoiceList,
+  component: Dashboard,
 });
 
-const STATUS_STYLES: Record<string, string> = {
-  draft: "text-muted-foreground border-muted-foreground",
-  sent: "text-foreground border-foreground",
-  paid: "text-accent border-accent",
-  overdue: "text-destructive border-destructive",
-};
-
-function InvoiceList() {
-  const { data: invoices = [], isLoading } = useQuery({
-    queryKey: ["invoices"],
+function Dashboard() {
+  const { data: profile } = useQuery({
+    queryKey: ["my-profile"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("invoices")
-        .select("*")
-        .order("created_at", { ascending: false });
-      if (error) throw error;
+      const { data: u } = await supabase.auth.getUser();
+      if (!u.user) return null;
+      const { data } = await supabase.from("profiles").select("*").eq("id", u.user.id).maybeSingle();
       return data;
     },
   });
 
-  const totals = {
-    paid: invoices.filter((i) => i.status === "paid").reduce((s, i) => s + Number(i.total), 0),
-    outstanding: invoices.filter((i) => i.status !== "paid" && i.status !== "draft").reduce((s, i) => s + Number(i.total), 0),
-    draft: invoices.filter((i) => i.status === "draft").length,
-  };
+  const { data: gigs = [] } = useQuery({
+    queryKey: ["gigs-recent"],
+    queryFn: async () => {
+      const { data } = await supabase.from("gigs").select("*").order("created_at", { ascending: false }).limit(5);
+      return data ?? [];
+    },
+  });
+
+  const name = profile?.display_name ?? "there";
 
   return (
-    <main className="mx-auto max-w-6xl px-6 py-12">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="eyebrow text-muted-foreground">§ Ledger</p>
-          <h1 className="display mt-2 text-6xl">Invoices.</h1>
+    <main className="mx-auto w-full max-w-6xl px-6 py-10 md:py-14">
+      <p className="eyebrow text-muted-foreground">§ Dashboard</p>
+      <h1 className="display mt-2 text-5xl md:text-6xl">Hey, {name}.</h1>
+      <p className="mt-3 text-muted-foreground">
+        {profile?.role === "employer" ? "Post a gig, find talent, and start collaborating." : "Find your next gig and grow your freelance business."}
+      </p>
+
+      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <QuickCard to="/app/gigs" icon={Briefcase} label="Browse Gigs" />
+        <QuickCard to="/app/freelancers" icon={Users} label="Find Talent" />
+        <QuickCard to="/app/messages" icon={MessageSquare} label="Messages" />
+        <QuickCard to="/app/invoices" icon={FileText} label="Invoices" />
+      </div>
+
+      <section className="mt-14">
+        <div className="flex items-end justify-between rule-bottom pb-3">
+          <h2 className="display text-3xl">Latest gigs</h2>
+          <Link to="/app/gigs" className="text-sm text-muted-foreground hover:text-accent inline-flex items-center gap-1">View all <ArrowUpRight className="h-3.5 w-3.5" /></Link>
         </div>
-        <Link to="/app/new" className="inline-flex items-center gap-2 bg-foreground px-5 py-3 text-sm font-medium text-background hover:bg-accent transition-colors">
-          <Plus className="h-4 w-4" /> New invoice
-        </Link>
-      </div>
-
-      <div className="mt-10 grid gap-px bg-rule sm:grid-cols-3">
-        <Stat label="Paid" value={money(totals.paid)} />
-        <Stat label="Outstanding" value={money(totals.outstanding)} />
-        <Stat label="Drafts" value={String(totals.draft)} />
-      </div>
-
-      <div className="mt-12 rule-top rule-bottom">
-        {isLoading ? (
-          <p className="py-8 text-center text-sm text-muted-foreground">Loading…</p>
-        ) : invoices.length === 0 ? (
-          <div className="py-20 text-center">
-            <p className="display text-3xl italic text-muted-foreground">No invoices yet.</p>
-            <Link to="/app/new" className="mt-6 inline-block border-b border-foreground pb-0.5 text-sm hover:text-accent hover:border-accent">Create your first →</Link>
-          </div>
-        ) : (
-          <table className="w-full">
-            <thead>
-              <tr className="eyebrow text-muted-foreground rule-bottom">
-                <th className="py-3 text-left font-normal">№</th>
-                <th className="py-3 text-left font-normal">Client</th>
-                <th className="py-3 text-left font-normal">Issued</th>
-                <th className="py-3 text-left font-normal">Due</th>
-                <th className="py-3 text-right font-normal">Total</th>
-                <th className="py-3 text-right font-normal">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {invoices.map((inv) => (
-                <tr key={inv.id} className="border-b border-rule last:border-0 hover:bg-secondary/40 transition-colors">
-                  <td className="py-4">
-                    <Link to="/app/invoice/$id" params={{ id: inv.id }} className="font-serif text-lg hover:text-accent">
-                      {inv.invoice_number}
-                    </Link>
-                  </td>
-                  <td className="py-4">{inv.client_name}</td>
-                  <td className="py-4 text-sm text-muted-foreground">{shortDate(inv.issue_date)}</td>
-                  <td className="py-4 text-sm text-muted-foreground">{shortDate(inv.due_date)}</td>
-                  <td className="py-4 text-right font-medium">{money(Number(inv.total), inv.currency)}</td>
-                  <td className="py-4 text-right">
-                    <span className={`inline-block border px-2 py-0.5 text-[10px] uppercase tracking-widest ${STATUS_STYLES[inv.status] ?? ""}`}>
-                      {inv.status}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
+        <div className="mt-4 space-y-2">
+          {gigs.length === 0 && <p className="py-8 text-center text-sm text-muted-foreground italic">No gigs posted yet. Be the first.</p>}
+          {gigs.map((g) => (
+            <Link key={g.id} to="/app/gigs" className="block border border-rule p-4 hover:border-accent transition-colors">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="eyebrow text-muted-foreground">{g.type === "job" ? "JOB" : "SERVICE"} · {g.category}</p>
+                  <p className="font-display text-lg font-semibold mt-1">{g.title}</p>
+                  <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{g.description}</p>
+                </div>
+                <p className="text-sm text-accent whitespace-nowrap">
+                  {g.budget_min ? `${g.currency} ${g.budget_min}${g.budget_max ? `–${g.budget_max}` : "+"}` : "—"}
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
     </main>
   );
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
+function QuickCard({ to, icon: Icon, label }: { to: string; icon: React.ComponentType<{ className?: string }>; label: string }) {
   return (
-    <div className="bg-background p-6">
-      <p className="eyebrow text-muted-foreground">{label}</p>
-      <p className="display mt-2 text-4xl">{value}</p>
-    </div>
+    <Link to={to} className="group border border-rule p-5 hover:border-accent hover:bg-secondary/40 transition-colors">
+      <Icon className="h-6 w-6 text-accent" />
+      <p className="mt-3 font-display text-base font-semibold">{label}</p>
+      <p className="mt-1 text-xs text-muted-foreground inline-flex items-center gap-1 group-hover:text-accent">Open <ArrowUpRight className="h-3 w-3" /></p>
+    </Link>
   );
 }

@@ -12,7 +12,7 @@ export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
       { title: "Sign in — InstaGig" },
-      { name: "description", content: "Sign in or create your InstaGig account." },
+      { name: "description", content: "Join InstaGig as a freelancer or an employer." },
     ],
   }),
   component: AuthPage,
@@ -22,6 +22,7 @@ function AuthPage() {
   const { mode: initialMode } = Route.useSearch();
   const navigate = useNavigate();
   const [mode, setMode] = useState<"signin" | "signup">(initialMode ?? "signin");
+  const [role, setRole] = useState<"freelancer" | "employer">("freelancer");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -43,11 +44,11 @@ function AuthPage() {
           password,
           options: {
             emailRedirectTo: `${window.location.origin}/app`,
-            data: { display_name: name || email.split("@")[0] },
+            data: { display_name: name || email.split("@")[0], role },
           },
         });
         if (error) throw error;
-        toast.success("Account created. Welcome!");
+        toast.success("Welcome to InstaGig!");
         navigate({ to: "/app" });
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -70,33 +71,45 @@ function AuthPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="rule-bottom mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <Link to="/" className="font-serif text-2xl tracking-tight">InstaGig<span className="text-accent">.</span></Link>
+        <Link to="/" className="font-display text-2xl font-semibold tracking-tight">InstaGig<span className="text-accent">.</span></Link>
         <button onClick={() => setMode(mode === "signin" ? "signup" : "signin")} className="text-sm hover:text-accent">
           {mode === "signin" ? "Need an account?" : "Have an account?"}
         </button>
       </div>
-      <div className="mx-auto grid min-h-[calc(100vh-65px)] max-w-7xl gap-12 px-6 py-16 md:grid-cols-2 md:py-24">
+      <div className="mx-auto grid min-h-[calc(100vh-65px)] max-w-7xl gap-12 px-6 py-12 md:grid-cols-2 md:py-20">
         <div className="hidden flex-col justify-between md:flex">
-          <p className="eyebrow text-muted-foreground">§ {mode === "signup" ? "First issue" : "Welcome back"}</p>
+          <p className="eyebrow text-muted-foreground">§ {mode === "signup" ? "New here" : "Welcome back"}</p>
           <div>
             <h1 className="display text-7xl">
-              {mode === "signup" ? <>Print your<br /><span className="italic text-accent">first invoice</span>.</> : <>Pick up<br />where you <span className="italic text-accent">left off</span>.</>}
+              {mode === "signup"
+                ? <>Work that <span className="italic text-accent">moves</span>.</>
+                : <>Pick up<br />where you <span className="italic text-accent">left off</span>.</>}
             </h1>
             <p className="mt-6 max-w-md text-muted-foreground">
-              Type a job, send a PDF, and let the chasing happen on autopilot.
+              The freelance marketplace built for people who actually ship. Post a gig, hire talent, chat & send files — all in one place.
             </p>
           </div>
-          <p className="text-sm italic text-muted-foreground">Vol. 01 — Established 2026</p>
+          <p className="text-sm italic text-muted-foreground">Vol. 01 — Est. 2026</p>
         </div>
 
         <div className="flex flex-col justify-center">
           <p className="eyebrow text-muted-foreground">{mode === "signup" ? "Create account" : "Sign in"}</p>
-          <h2 className="display mt-3 text-4xl">{mode === "signup" ? "It takes a minute." : "Hello again."}</h2>
+          <h2 className="display mt-3 text-4xl">{mode === "signup" ? "Two seconds." : "Hello again."}</h2>
 
-          <button onClick={handleGoogle} className="mt-8 flex items-center justify-center gap-3 border border-foreground px-4 py-3 text-sm font-medium hover:bg-foreground hover:text-background transition-colors">
+          {mode === "signup" && (
+            <div className="mt-8">
+              <p className="eyebrow text-muted-foreground mb-3">I am a…</p>
+              <div className="grid grid-cols-2 gap-3">
+                <RoleCard active={role === "freelancer"} onClick={() => setRole("freelancer")} title="Freelancer" desc="Find gigs, get paid" />
+                <RoleCard active={role === "employer"} onClick={() => setRole("employer")} title="Employer" desc="Post jobs, hire talent" />
+              </div>
+            </div>
+          )}
+
+          <button onClick={handleGoogle} className="mt-6 flex items-center justify-center gap-3 border border-foreground px-4 py-3 text-sm font-medium hover:bg-foreground hover:text-background transition-colors">
             <GoogleMark /> Continue with Google
           </button>
-          <div className="my-6 flex items-center gap-3 text-xs text-muted-foreground">
+          <div className="my-5 flex items-center gap-3 text-xs text-muted-foreground">
             <div className="flex-1 border-t border-rule" /> OR <div className="flex-1 border-t border-rule" />
           </div>
 
@@ -115,13 +128,23 @@ function AuthPage() {
               <span className="eyebrow text-muted-foreground">Password</span>
               <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" minLength={6} required className="mt-1 w-full border-b border-foreground bg-transparent py-2 outline-none focus:border-accent" />
             </label>
-            <button disabled={loading} type="submit" className="mt-4 bg-foreground px-5 py-3 text-sm font-medium text-background hover:bg-accent transition-colors disabled:opacity-50">
-              {loading ? "…" : mode === "signup" ? "Create account" : "Sign in"}
+            <button disabled={loading} type="submit" className="mt-2 bg-accent px-5 py-3 text-sm font-semibold text-accent-foreground hover:bg-foreground hover:text-background transition-colors disabled:opacity-50">
+              {loading ? "…" : mode === "signup" ? `Join as ${role}` : "Sign in"}
             </button>
           </form>
         </div>
       </div>
     </div>
+  );
+}
+
+function RoleCard({ active, onClick, title, desc }: { active: boolean; onClick: () => void; title: string; desc: string }) {
+  return (
+    <button type="button" onClick={onClick}
+      className={`text-left border p-4 transition-colors ${active ? "border-accent bg-accent/10" : "border-rule hover:border-foreground"}`}>
+      <p className={`font-display text-lg font-semibold ${active ? "text-accent" : ""}`}>{title}</p>
+      <p className="mt-1 text-xs text-muted-foreground">{desc}</p>
+    </button>
   );
 }
 
