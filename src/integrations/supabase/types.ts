@@ -14,6 +14,78 @@ export type Database = {
   }
   public: {
     Tables: {
+      conversations: {
+        Row: {
+          created_at: string
+          id: string
+          updated_at: string
+          user_a: string
+          user_b: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_a: string
+          user_b: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_a?: string
+          user_b?: string
+        }
+        Relationships: []
+      }
+      gigs: {
+        Row: {
+          budget_max: number | null
+          budget_min: number | null
+          category: string
+          created_at: string
+          currency: string
+          description: string
+          id: string
+          owner_id: string
+          status: string
+          tags: string[]
+          title: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          budget_max?: number | null
+          budget_min?: number | null
+          category?: string
+          created_at?: string
+          currency?: string
+          description: string
+          id?: string
+          owner_id: string
+          status?: string
+          tags?: string[]
+          title: string
+          type?: string
+          updated_at?: string
+        }
+        Update: {
+          budget_max?: number | null
+          budget_min?: number | null
+          category?: string
+          created_at?: string
+          currency?: string
+          description?: string
+          id?: string
+          owner_id?: string
+          status?: string
+          tags?: string[]
+          title?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       invoices: {
         Row: {
           client_email: string | null
@@ -74,29 +146,88 @@ export type Database = {
         }
         Relationships: []
       }
+      messages: {
+        Row: {
+          attachment_name: string | null
+          attachment_url: string | null
+          body: string | null
+          conversation_id: string
+          created_at: string
+          id: string
+          sender_id: string
+        }
+        Insert: {
+          attachment_name?: string | null
+          attachment_url?: string | null
+          body?: string | null
+          conversation_id: string
+          created_at?: string
+          id?: string
+          sender_id: string
+        }
+        Update: {
+          attachment_name?: string | null
+          attachment_url?: string | null
+          body?: string | null
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           accent_color: string | null
+          avatar_url: string | null
+          bio: string | null
           business_name: string | null
           created_at: string
           display_name: string | null
+          headline: string | null
+          hourly_rate: number | null
           id: string
+          location: string | null
+          role: Database["public"]["Enums"]["user_role"]
+          skills: string[]
           updated_at: string
         }
         Insert: {
           accent_color?: string | null
+          avatar_url?: string | null
+          bio?: string | null
           business_name?: string | null
           created_at?: string
           display_name?: string | null
+          headline?: string | null
+          hourly_rate?: number | null
           id: string
+          location?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          skills?: string[]
           updated_at?: string
         }
         Update: {
           accent_color?: string | null
+          avatar_url?: string | null
+          bio?: string | null
           business_name?: string | null
           created_at?: string
           display_name?: string | null
+          headline?: string | null
+          hourly_rate?: number | null
           id?: string
+          location?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          skills?: string[]
           updated_at?: string
         }
         Relationships: []
@@ -109,7 +240,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      user_role: "freelancer" | "employer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -236,6 +367,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      user_role: ["freelancer", "employer"],
+    },
   },
 } as const
