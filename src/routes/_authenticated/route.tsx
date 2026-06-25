@@ -13,14 +13,14 @@ export const Route = createFileRoute("/_authenticated")({
   component: AppShell,
 });
 
-const NAV = [
+const NAV: { to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }[] = [
   { to: "/app", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/app/gigs", label: "Browse Gigs", icon: Briefcase },
   { to: "/app/freelancers", label: "Talent", icon: Users },
   { to: "/app/messages", label: "Messages", icon: MessageSquare },
   { to: "/app/invoices", label: "Invoices", icon: FileText },
   { to: "/app/profile", label: "Profile", icon: User },
-] as const;
+];
 
 function AppShell() {
   const navigate = useNavigate();

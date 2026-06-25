@@ -13,8 +13,14 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
+import { Route as AuthenticatedAppProfileRouteImport } from './routes/_authenticated/app.profile'
 import { Route as AuthenticatedAppNewRouteImport } from './routes/_authenticated/app.new'
+import { Route as AuthenticatedAppMessagesRouteImport } from './routes/_authenticated/app.messages'
+import { Route as AuthenticatedAppInvoicesRouteImport } from './routes/_authenticated/app.invoices'
+import { Route as AuthenticatedAppFreelancersRouteImport } from './routes/_authenticated/app.freelancers'
+import { Route as AuthenticatedAppGigsIndexRouteImport } from './routes/_authenticated/app.gigs.index'
 import { Route as AuthenticatedAppInvoiceIdRouteImport } from './routes/_authenticated/app.invoice.$id'
+import { Route as AuthenticatedAppGigsNewRouteImport } from './routes/_authenticated/app.gigs.new'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
@@ -35,54 +41,134 @@ const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
   path: '/app/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAppProfileRoute = AuthenticatedAppProfileRouteImport.update({
+  id: '/app/profile',
+  path: '/app/profile',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAppNewRoute = AuthenticatedAppNewRouteImport.update({
   id: '/app/new',
   path: '/app/new',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAppMessagesRoute =
+  AuthenticatedAppMessagesRouteImport.update({
+    id: '/app/messages',
+    path: '/app/messages',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAppInvoicesRoute =
+  AuthenticatedAppInvoicesRouteImport.update({
+    id: '/app/invoices',
+    path: '/app/invoices',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAppFreelancersRoute =
+  AuthenticatedAppFreelancersRouteImport.update({
+    id: '/app/freelancers',
+    path: '/app/freelancers',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAppGigsIndexRoute =
+  AuthenticatedAppGigsIndexRouteImport.update({
+    id: '/app/gigs/',
+    path: '/app/gigs/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAppInvoiceIdRoute =
   AuthenticatedAppInvoiceIdRouteImport.update({
     id: '/app/invoice/$id',
     path: '/app/invoice/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAppGigsNewRoute = AuthenticatedAppGigsNewRouteImport.update({
+  id: '/app/gigs/new',
+  path: '/app/gigs/new',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/app/freelancers': typeof AuthenticatedAppFreelancersRoute
+  '/app/invoices': typeof AuthenticatedAppInvoicesRoute
+  '/app/messages': typeof AuthenticatedAppMessagesRoute
   '/app/new': typeof AuthenticatedAppNewRoute
+  '/app/profile': typeof AuthenticatedAppProfileRoute
   '/app/': typeof AuthenticatedAppIndexRoute
+  '/app/gigs/new': typeof AuthenticatedAppGigsNewRoute
   '/app/invoice/$id': typeof AuthenticatedAppInvoiceIdRoute
+  '/app/gigs/': typeof AuthenticatedAppGigsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/app/freelancers': typeof AuthenticatedAppFreelancersRoute
+  '/app/invoices': typeof AuthenticatedAppInvoicesRoute
+  '/app/messages': typeof AuthenticatedAppMessagesRoute
   '/app/new': typeof AuthenticatedAppNewRoute
+  '/app/profile': typeof AuthenticatedAppProfileRoute
   '/app': typeof AuthenticatedAppIndexRoute
+  '/app/gigs/new': typeof AuthenticatedAppGigsNewRoute
   '/app/invoice/$id': typeof AuthenticatedAppInvoiceIdRoute
+  '/app/gigs': typeof AuthenticatedAppGigsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/app/freelancers': typeof AuthenticatedAppFreelancersRoute
+  '/_authenticated/app/invoices': typeof AuthenticatedAppInvoicesRoute
+  '/_authenticated/app/messages': typeof AuthenticatedAppMessagesRoute
   '/_authenticated/app/new': typeof AuthenticatedAppNewRoute
+  '/_authenticated/app/profile': typeof AuthenticatedAppProfileRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
+  '/_authenticated/app/gigs/new': typeof AuthenticatedAppGigsNewRoute
   '/_authenticated/app/invoice/$id': typeof AuthenticatedAppInvoiceIdRoute
+  '/_authenticated/app/gigs/': typeof AuthenticatedAppGigsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/app/new' | '/app/' | '/app/invoice/$id'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/app/freelancers'
+    | '/app/invoices'
+    | '/app/messages'
+    | '/app/new'
+    | '/app/profile'
+    | '/app/'
+    | '/app/gigs/new'
+    | '/app/invoice/$id'
+    | '/app/gigs/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/app/new' | '/app' | '/app/invoice/$id'
+  to:
+    | '/'
+    | '/auth'
+    | '/app/freelancers'
+    | '/app/invoices'
+    | '/app/messages'
+    | '/app/new'
+    | '/app/profile'
+    | '/app'
+    | '/app/gigs/new'
+    | '/app/invoice/$id'
+    | '/app/gigs'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/_authenticated/app/freelancers'
+    | '/_authenticated/app/invoices'
+    | '/_authenticated/app/messages'
     | '/_authenticated/app/new'
+    | '/_authenticated/app/profile'
     | '/_authenticated/app/'
+    | '/_authenticated/app/gigs/new'
     | '/_authenticated/app/invoice/$id'
+    | '/_authenticated/app/gigs/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -121,11 +207,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/app/profile': {
+      id: '/_authenticated/app/profile'
+      path: '/app/profile'
+      fullPath: '/app/profile'
+      preLoaderRoute: typeof AuthenticatedAppProfileRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/app/new': {
       id: '/_authenticated/app/new'
       path: '/app/new'
       fullPath: '/app/new'
       preLoaderRoute: typeof AuthenticatedAppNewRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/app/messages': {
+      id: '/_authenticated/app/messages'
+      path: '/app/messages'
+      fullPath: '/app/messages'
+      preLoaderRoute: typeof AuthenticatedAppMessagesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/app/invoices': {
+      id: '/_authenticated/app/invoices'
+      path: '/app/invoices'
+      fullPath: '/app/invoices'
+      preLoaderRoute: typeof AuthenticatedAppInvoicesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/app/freelancers': {
+      id: '/_authenticated/app/freelancers'
+      path: '/app/freelancers'
+      fullPath: '/app/freelancers'
+      preLoaderRoute: typeof AuthenticatedAppFreelancersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/app/gigs/': {
+      id: '/_authenticated/app/gigs/'
+      path: '/app/gigs'
+      fullPath: '/app/gigs/'
+      preLoaderRoute: typeof AuthenticatedAppGigsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/app/invoice/$id': {
@@ -135,19 +256,38 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppInvoiceIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/app/gigs/new': {
+      id: '/_authenticated/app/gigs/new'
+      path: '/app/gigs/new'
+      fullPath: '/app/gigs/new'
+      preLoaderRoute: typeof AuthenticatedAppGigsNewRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAppFreelancersRoute: typeof AuthenticatedAppFreelancersRoute
+  AuthenticatedAppInvoicesRoute: typeof AuthenticatedAppInvoicesRoute
+  AuthenticatedAppMessagesRoute: typeof AuthenticatedAppMessagesRoute
   AuthenticatedAppNewRoute: typeof AuthenticatedAppNewRoute
+  AuthenticatedAppProfileRoute: typeof AuthenticatedAppProfileRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
+  AuthenticatedAppGigsNewRoute: typeof AuthenticatedAppGigsNewRoute
   AuthenticatedAppInvoiceIdRoute: typeof AuthenticatedAppInvoiceIdRoute
+  AuthenticatedAppGigsIndexRoute: typeof AuthenticatedAppGigsIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAppFreelancersRoute: AuthenticatedAppFreelancersRoute,
+  AuthenticatedAppInvoicesRoute: AuthenticatedAppInvoicesRoute,
+  AuthenticatedAppMessagesRoute: AuthenticatedAppMessagesRoute,
   AuthenticatedAppNewRoute: AuthenticatedAppNewRoute,
+  AuthenticatedAppProfileRoute: AuthenticatedAppProfileRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
+  AuthenticatedAppGigsNewRoute: AuthenticatedAppGigsNewRoute,
   AuthenticatedAppInvoiceIdRoute: AuthenticatedAppInvoiceIdRoute,
+  AuthenticatedAppGigsIndexRoute: AuthenticatedAppGigsIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
