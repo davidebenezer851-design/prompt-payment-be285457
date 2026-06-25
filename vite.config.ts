@@ -5,10 +5,16 @@
 //     error logger plugins, and sandbox detection (port/host/strictPort).
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { nitro } from "nitro/vite";
 
 export default defineConfig({
-  // This line checks if the VERCEL environment exists. If it does, it turns on Vercel's Nitro adapter!
-  nitro: process.env.VERCEL ? true : false,
+  vite: {
+    plugins: [
+      nitro({
+        preset: process.env.VERCEL ? "vercel" : undefined,
+      }),
+    ],
+  },
   tanstackStart: {
     server: {
       entry: "server",
