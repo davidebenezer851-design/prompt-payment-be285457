@@ -53,13 +53,11 @@ function AuthPage() {
         });
         if (error) throw error;
         toast.success("Welcome to InstaGig!");
-        if (data.user) await routeByRole(data.user.id, role);
-        else navigate({ to: "/app" });
+        await goHome();
       } else {
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        if (data.user) await routeByRole(data.user.id, role);
-        else navigate({ to: "/app" });
+        await goHome();
       }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Something went wrong");
