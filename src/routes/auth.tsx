@@ -29,18 +29,13 @@ function AuthPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getUser().then(async ({ data }) => {
-      if (data.user) {
-        const { data: p } = await supabase.from("profiles").select("role").eq("id", data.user.id).maybeSingle();
-        navigate({ to: p?.role === "employer" ? "/app/freelancers" : "/app/gigs" });
-      }
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user) navigate({ to: "/" });
     });
   }, [navigate]);
 
-  async function routeByRole(userId: string, fallback: "freelancer" | "employer") {
-    const { data: p } = await supabase.from("profiles").select("role").eq("id", userId).maybeSingle();
-    const r = p?.role ?? fallback;
-    navigate({ to: r === "employer" ? "/app/freelancers" : "/app/gigs" });
+  async function goHome() {
+    navigate({ to: "/" });
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -58,13 +53,11 @@ function AuthPage() {
         });
         if (error) throw error;
         toast.success("Welcome to InstaGig!");
-        if (data.user) await routeByRole(data.user.id, role);
-        else navigate({ to: "/app" });
+        await goHome();
       } else {
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        if (data.user) await routeByRole(data.user.id, role);
-        else navigate({ to: "/app" });
+        await goHome();
       }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Something went wrong");
@@ -76,7 +69,7 @@ function AuthPage() {
   async function handleGoogle() {
     const r = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
     if (r.error) toast.error("Google sign-in failed");
-    if (!r.redirected && !r.error) navigate({ to: "/app" });
+    if (!r.redirected && !r.error) navigate({ to: "/" });
   }
 
 

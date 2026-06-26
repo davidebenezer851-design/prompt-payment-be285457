@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, Check, Zap, Send, BadgeDollarSign, Bell, Menu, X, Briefcase, Users, MessageSquare, FileText, User, LayoutDashboard, Plus, Mail, Sparkles } from "lucide-react";
 import { useReveal } from "@/hooks/use-reveal";
 import { useState } from "react";
+import { UserBadge, useIsSignedIn } from "@/components/user-badge";
 
 
 export const Route = createFileRoute("/")({
@@ -32,6 +33,7 @@ function Landing() {
 
 function Nav() {
   const [open, setOpen] = useState(false);
+  const signedIn = useIsSignedIn();
   return (
     <>
       <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-xl border-b border-rule">
@@ -55,10 +57,16 @@ function Nav() {
             <a href="#pricing" className="hover:text-foreground transition-colors">Pricing</a>
           </nav>
           <div className="flex items-center gap-3">
-            <Link to="/auth" className="hidden text-sm text-muted-foreground hover:text-foreground md:inline transition-colors">Sign in</Link>
-            <Link to="/auth" search={{ mode: "signup" }} className="group inline-flex items-center gap-1.5 bg-accent px-4 py-2 text-sm font-medium text-accent-foreground hover:bg-foreground hover:text-background transition-colors">
-              Get started <ArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
-            </Link>
+            {signedIn ? (
+              <UserBadge />
+            ) : (
+              <>
+                <Link to="/auth" className="hidden text-sm text-muted-foreground hover:text-foreground md:inline transition-colors">Sign in</Link>
+                <Link to="/auth" search={{ mode: "signup" }} className="group inline-flex items-center gap-1.5 bg-accent px-4 py-2 text-sm font-medium text-accent-foreground hover:bg-foreground hover:text-background transition-colors">
+                  Get started <ArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </header>
