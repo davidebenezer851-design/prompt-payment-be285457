@@ -118,6 +118,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <SplashScreen />
       <Outlet />
       <Toaster />
     </QueryClientProvider>
