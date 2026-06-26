@@ -29,17 +29,26 @@ function AuthPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      if (data.user) navigate({ to: "/app" });
+    supabase.auth.getUser().then(async ({ data }) => {
+      if (data.user) {
+        const { data: p } = await supabase.from("profiles").select("role").eq("id", data.user.id).maybeSingle();
+        navigate({ to: p?.role === "employer" ? "/app/freelancers" : "/app/gigs" });
+      }
     });
   }, [navigate]);
+
+  async function routeByRole(userId: string, fallback: "freelancer" | "employer") {
+    const { data: p } = await supabase.from("profiles").select("role").eq("id", userId).maybeSingle();
+    const r = p?.role ?? fallback;
+    navigate({ to: r === "employer" ? "/app/freelancers" : "/app/gigs" });
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     try {
       if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -49,11 +58,13 @@ function AuthPage() {
         });
         if (error) throw error;
         toast.success("Welcome to InstaGig!");
-        navigate({ to: "/app" });
+        if (data.user) await routeByRole(data.user.id, role);
+        else navigate({ to: "/app" });
       } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        navigate({ to: "/app" });
+        if (data.user) await routeByRole(data.user.id, role);
+        else navigate({ to: "/app" });
       }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Something went wrong");
@@ -67,6 +78,7 @@ function AuthPage() {
     if (r.error) toast.error("Google sign-in failed");
     if (!r.redirected && !r.error) navigate({ to: "/app" });
   }
+
 
   return (
     <div className="min-h-screen bg-background text-foreground">
