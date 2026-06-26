@@ -31,28 +31,140 @@ function Landing() {
 }
 
 function Nav() {
+  const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-xl border-b border-rule">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <Link to="/" className="flex items-center gap-2 font-display text-xl font-semibold tracking-tight">
-          <span className="grid h-7 w-7 place-items-center bg-accent text-accent-foreground text-[11px] font-bold">F</span>
-          InstaGig
-        </Link>
-        <nav className="hidden gap-8 text-sm text-muted-foreground md:flex">
-          <a href="#how" className="hover:text-foreground transition-colors">How it works</a>
-          <a href="#features" className="hover:text-foreground transition-colors">Features</a>
-          <a href="#pricing" className="hover:text-foreground transition-colors">Pricing</a>
-        </nav>
-        <div className="flex items-center gap-3">
-          <Link to="/auth" className="hidden text-sm text-muted-foreground hover:text-foreground md:inline transition-colors">Sign in</Link>
-          <Link to="/auth" search={{ mode: "signup" }} className="group inline-flex items-center gap-1.5 bg-accent px-4 py-2 text-sm font-medium text-accent-foreground hover:bg-foreground hover:text-background transition-colors">
-            Get started <ArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
-          </Link>
+    <>
+      <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-xl border-b border-rule">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+          <div className="flex items-center gap-3 min-w-0">
+            <button
+              onClick={() => setOpen(true)}
+              aria-label="Open menu"
+              className="grid h-9 w-9 shrink-0 place-items-center border border-rule hover:border-accent hover:text-accent transition-colors"
+            >
+              <Menu className="h-4 w-4" />
+            </button>
+            <Link to="/" className="flex items-center gap-2 font-display text-xl font-semibold tracking-tight">
+              <span className="grid h-7 w-7 place-items-center bg-accent text-accent-foreground text-[11px] font-bold">F</span>
+              InstaGig
+            </Link>
+          </div>
+          <nav className="hidden gap-8 text-sm text-muted-foreground md:flex">
+            <a href="#how" className="hover:text-foreground transition-colors">How it works</a>
+            <a href="#features" className="hover:text-foreground transition-colors">Features</a>
+            <a href="#pricing" className="hover:text-foreground transition-colors">Pricing</a>
+          </nav>
+          <div className="flex items-center gap-3">
+            <Link to="/auth" className="hidden text-sm text-muted-foreground hover:text-foreground md:inline transition-colors">Sign in</Link>
+            <Link to="/auth" search={{ mode: "signup" }} className="group inline-flex items-center gap-1.5 bg-accent px-4 py-2 text-sm font-medium text-accent-foreground hover:bg-foreground hover:text-background transition-colors">
+              Get started <ArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
+            </Link>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+      <SideDrawer open={open} onClose={() => setOpen(false)} />
+    </>
   );
 }
+
+function SideDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const sections = [
+    {
+      label: "Explore",
+      items: [
+        { to: "/app", icon: LayoutDashboard, title: "Dashboard", desc: "Your work at a glance" },
+        { to: "/app/gigs", icon: Briefcase, title: "Browse Gigs", desc: "Jobs & services" },
+        { to: "/app/freelancers", icon: Users, title: "Talent", desc: "Hire from the community" },
+      ],
+    },
+    {
+      label: "Work",
+      items: [
+        { to: "/app/gigs/new", icon: Plus, title: "Post a gig", desc: "Hire in minutes" },
+        { to: "/app/messages", icon: MessageSquare, title: "Messages", desc: "Chat + file uploads" },
+        { to: "/app/invoices", icon: FileText, title: "Invoices", desc: "Send, track, get paid" },
+      ],
+    },
+    {
+      label: "You",
+      items: [
+        { to: "/app/profile", icon: User, title: "Profile", desc: "Skills, rate, avatar" },
+        { to: "/auth", icon: Sparkles, title: "Sign in", desc: "Pick up where you left off" },
+        { to: "/auth", icon: Mail, title: "Create account", desc: "Freelancer or employer" },
+      ],
+    },
+  ] as const;
+
+  return (
+    <>
+      <div
+        onClick={onClose}
+        className={`fixed inset-0 z-40 bg-black/70 backdrop-blur-sm transition-opacity ${open ? "opacity-100" : "pointer-events-none opacity-0"}`}
+      />
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 w-[88vw] max-w-sm border-r border-rule bg-background transform transition-transform duration-300 ease-out ${open ? "translate-x-0" : "-translate-x-full"}`}
+      >
+        <div className="flex h-full flex-col overflow-y-auto">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-rule">
+            <Link to="/" onClick={onClose} className="flex items-center gap-2 font-display text-xl font-semibold tracking-tight">
+              <span className="grid h-7 w-7 place-items-center bg-accent text-accent-foreground text-[11px] font-bold">F</span>
+              InstaGig
+            </Link>
+            <button onClick={onClose} aria-label="Close menu" className="grid h-9 w-9 place-items-center text-muted-foreground hover:text-accent">
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+
+          <div className="px-6 py-6 border-b border-rule">
+            <p className="eyebrow text-muted-foreground">§ Vol. 01</p>
+            <p className="display mt-2 text-3xl leading-tight">
+              The freelance<br /><span className="display-serif text-accent">marketplace</span>.
+            </p>
+          </div>
+
+          <nav className="flex-1 px-3 py-4 space-y-6">
+            {sections.map((sec) => (
+              <div key={sec.label}>
+                <p className="px-3 eyebrow text-muted-foreground mb-2">§ {sec.label}</p>
+                <div className="space-y-1">
+                  {sec.items.map(({ to, icon: Icon, title, desc }) => (
+                    <Link
+                      key={title}
+                      to={to}
+                      onClick={onClose}
+                      className="group flex items-start gap-3 px-3 py-2.5 border-l-2 border-transparent hover:border-accent hover:bg-secondary/40 transition-colors"
+                    >
+                      <Icon className="h-4 w-4 mt-0.5 shrink-0 text-muted-foreground group-hover:text-accent" />
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium truncate">{title}</p>
+                        <p className="text-xs text-muted-foreground truncate">{desc}</p>
+                      </div>
+                      <ArrowUpRight className="ml-auto h-3.5 w-3.5 shrink-0 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </nav>
+
+          <div className="px-6 py-5 border-t border-rule">
+            <Link
+              to="/auth"
+              search={{ mode: "signup" }}
+              onClick={onClose}
+              className="group flex items-center justify-between bg-accent px-4 py-3 text-accent-foreground hover:bg-foreground hover:text-background transition-colors"
+            >
+              <span className="text-sm font-semibold">Start free — no card</span>
+              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
+            </Link>
+            <p className="mt-3 text-[10px] uppercase tracking-widest text-muted-foreground text-center">Est. 2026 — Made for makers</p>
+          </div>
+        </div>
+      </aside>
+    </>
+  );
+}
+
 
 function Hero() {
   return (
