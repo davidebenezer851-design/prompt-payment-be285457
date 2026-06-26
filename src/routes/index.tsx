@@ -33,6 +33,7 @@ function Landing() {
 
 function Nav() {
   const [open, setOpen] = useState(false);
+  const signedIn = useIsSignedIn();
   return (
     <>
       <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-xl border-b border-rule">
