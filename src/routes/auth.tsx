@@ -29,18 +29,13 @@ function AuthPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getUser().then(async ({ data }) => {
-      if (data.user) {
-        const { data: p } = await supabase.from("profiles").select("role").eq("id", data.user.id).maybeSingle();
-        navigate({ to: p?.role === "employer" ? "/app/freelancers" : "/app/gigs" });
-      }
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user) navigate({ to: "/" });
     });
   }, [navigate]);
 
-  async function routeByRole(userId: string, fallback: "freelancer" | "employer") {
-    const { data: p } = await supabase.from("profiles").select("role").eq("id", userId).maybeSingle();
-    const r = p?.role ?? fallback;
-    navigate({ to: r === "employer" ? "/app/freelancers" : "/app/gigs" });
+  async function goHome() {
+    navigate({ to: "/" });
   }
 
   async function handleSubmit(e: React.FormEvent) {
