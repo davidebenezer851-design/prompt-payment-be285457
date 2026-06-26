@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, Check, Zap, Send, BadgeDollarSign, Bell } from "lucide-react";
+import { ArrowUpRight, Check, Zap, Send, BadgeDollarSign, Bell, Menu, X, Briefcase, Users, MessageSquare, FileText, User, LayoutDashboard, Plus, Mail, Sparkles } from "lucide-react";
 import { useReveal } from "@/hooks/use-reveal";
+import { useState } from "react";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
