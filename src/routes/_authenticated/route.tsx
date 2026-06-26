@@ -39,13 +39,13 @@ function AppShell() {
   return (
     <div className="min-h-screen bg-background text-foreground flex">
       {/* Sidebar */}
-      <aside className={`fixed inset-y-0 left-0 z-40 w-64 border-r border-rule bg-background transform transition-transform md:relative md:translate-x-0 ${open ? "translate-x-0" : "-translate-x-full"}`}>
+      <aside className={`fixed inset-y-0 left-0 z-40 w-64 border-r border-rule bg-background transform transition-transform sm:relative sm:translate-x-0 ${open ? "translate-x-0" : "-translate-x-full"}`}>
         <div className="flex h-full flex-col">
           <div className="rule-bottom flex items-center justify-between px-6 py-5">
             <Link to="/app" className="font-display text-xl font-semibold tracking-tight">
               InstaGig<span className="text-accent">.</span>
             </Link>
-            <button onClick={() => setOpen(false)} className="md:hidden text-muted-foreground"><X className="h-5 w-5" /></button>
+            <button onClick={() => setOpen(false)} className="sm:hidden text-muted-foreground"><X className="h-5 w-5" /></button>
           </div>
 
           <Link to="/app/gigs/new" onClick={() => setOpen(false)}
@@ -73,11 +73,11 @@ function AppShell() {
         </div>
       </aside>
 
-      {open && <div className="fixed inset-0 z-30 bg-black/60 md:hidden" onClick={() => setOpen(false)} />}
+      {open && <div className="fixed inset-0 z-30 bg-black/60 sm:hidden" onClick={() => setOpen(false)} />}
 
       {/* Main */}
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="rule-bottom flex items-center gap-3 px-4 py-3 md:hidden">
+        <header className="rule-bottom flex items-center gap-3 px-4 py-3 sm:hidden">
           <button onClick={() => setOpen(true)} className="text-foreground"><Menu className="h-5 w-5" /></button>
           <Link to="/app" className="font-display text-lg font-semibold">InstaGig<span className="text-accent">.</span></Link>
         </header>
