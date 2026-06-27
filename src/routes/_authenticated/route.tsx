@@ -79,9 +79,13 @@ function AppShell() {
 
       {/* Main */}
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="rule-bottom flex items-center gap-3 px-4 py-3 sm:hidden">
-          <button onClick={() => setOpen(true)} className="text-foreground"><Menu className="h-5 w-5" /></button>
-          <Link to="/app" className="font-display text-lg font-semibold">InstaGig<span className="text-accent">.</span></Link>
+        <header className="rule-bottom flex items-center justify-between gap-3 px-4 py-3">
+          <div className="flex items-center gap-3 sm:hidden">
+            <button onClick={() => setOpen(true)} className="text-foreground"><Menu className="h-5 w-5" /></button>
+            <Link to="/app" className="font-display text-lg font-semibold">InstaGig<span className="text-accent">.</span></Link>
+          </div>
+          <div className="hidden sm:block text-xs text-muted-foreground">Signed in</div>
+          <UserBadge />
         </header>
         <Outlet />
       </div>
