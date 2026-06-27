@@ -55,11 +55,13 @@ function AuthPage() {
         });
         if (error) throw error;
         toast.success("Welcome to InstaGig!");
-        await goHome();
+        await goRoleHome(role);
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        await goHome();
+        const { data: u } = await supabase.auth.getUser();
+        const { data: p } = await supabase.from("profiles").select("role").eq("id", u.user!.id).maybeSingle();
+        await goRoleHome((p?.role as "freelancer" | "employer") ?? "freelancer");
       }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Something went wrong");
