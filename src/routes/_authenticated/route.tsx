@@ -2,6 +2,7 @@ import { createFileRoute, Outlet, redirect, Link, useNavigate } from "@tanstack/
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 import { LayoutDashboard, Briefcase, Users, MessageSquare, FileText, User, Plus, LogOut, Menu, X } from "lucide-react";
+import { UserBadge } from "@/components/user-badge";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
