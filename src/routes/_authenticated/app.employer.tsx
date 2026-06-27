@@ -96,7 +96,7 @@ function Empty({ text }: { text: string }) {
   return <p className="sm:col-span-2 py-8 text-center text-sm italic text-muted-foreground">{text}</p>;
 }
 
-function GigRow({ g }: { g: { id: string; title: string; description: string; category: string; budget_min: number | null; budget_max: number | null; currency: string; type: string; profiles?: { display_name?: string | null } | null } }) {
+function GigRow({ g }: { g: any }) {
   return (
     <Link to="/app/gigs" className="block border border-rule p-4 hover:border-accent transition-colors">
       <p className="eyebrow text-muted-foreground">{g.category}</p>
