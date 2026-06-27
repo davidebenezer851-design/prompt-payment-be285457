@@ -18,6 +18,8 @@ import { Route as AuthenticatedAppNewRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedAppMessagesRouteImport } from './routes/_authenticated/app.messages'
 import { Route as AuthenticatedAppInvoicesRouteImport } from './routes/_authenticated/app.invoices'
 import { Route as AuthenticatedAppFreelancersRouteImport } from './routes/_authenticated/app.freelancers'
+import { Route as AuthenticatedAppFreelancerRouteImport } from './routes/_authenticated/app.freelancer'
+import { Route as AuthenticatedAppEmployerRouteImport } from './routes/_authenticated/app.employer'
 import { Route as AuthenticatedAppGigsIndexRouteImport } from './routes/_authenticated/app.gigs.index'
 import { Route as AuthenticatedAppInvoiceIdRouteImport } from './routes/_authenticated/app.invoice.$id'
 import { Route as AuthenticatedAppGigsNewRouteImport } from './routes/_authenticated/app.gigs.new'
@@ -69,6 +71,18 @@ const AuthenticatedAppFreelancersRoute =
     path: '/app/freelancers',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAppFreelancerRoute =
+  AuthenticatedAppFreelancerRouteImport.update({
+    id: '/app/freelancer',
+    path: '/app/freelancer',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAppEmployerRoute =
+  AuthenticatedAppEmployerRouteImport.update({
+    id: '/app/employer',
+    path: '/app/employer',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAppGigsIndexRoute =
   AuthenticatedAppGigsIndexRouteImport.update({
     id: '/app/gigs/',
@@ -90,6 +104,8 @@ const AuthenticatedAppGigsNewRoute = AuthenticatedAppGigsNewRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/app/employer': typeof AuthenticatedAppEmployerRoute
+  '/app/freelancer': typeof AuthenticatedAppFreelancerRoute
   '/app/freelancers': typeof AuthenticatedAppFreelancersRoute
   '/app/invoices': typeof AuthenticatedAppInvoicesRoute
   '/app/messages': typeof AuthenticatedAppMessagesRoute
@@ -103,6 +119,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/app/employer': typeof AuthenticatedAppEmployerRoute
+  '/app/freelancer': typeof AuthenticatedAppFreelancerRoute
   '/app/freelancers': typeof AuthenticatedAppFreelancersRoute
   '/app/invoices': typeof AuthenticatedAppInvoicesRoute
   '/app/messages': typeof AuthenticatedAppMessagesRoute
@@ -118,6 +136,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/app/employer': typeof AuthenticatedAppEmployerRoute
+  '/_authenticated/app/freelancer': typeof AuthenticatedAppFreelancerRoute
   '/_authenticated/app/freelancers': typeof AuthenticatedAppFreelancersRoute
   '/_authenticated/app/invoices': typeof AuthenticatedAppInvoicesRoute
   '/_authenticated/app/messages': typeof AuthenticatedAppMessagesRoute
@@ -133,6 +153,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/app/employer'
+    | '/app/freelancer'
     | '/app/freelancers'
     | '/app/invoices'
     | '/app/messages'
@@ -146,6 +168,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/app/employer'
+    | '/app/freelancer'
     | '/app/freelancers'
     | '/app/invoices'
     | '/app/messages'
@@ -160,6 +184,8 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/_authenticated/app/employer'
+    | '/_authenticated/app/freelancer'
     | '/_authenticated/app/freelancers'
     | '/_authenticated/app/invoices'
     | '/_authenticated/app/messages'
@@ -242,6 +268,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppFreelancersRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/app/freelancer': {
+      id: '/_authenticated/app/freelancer'
+      path: '/app/freelancer'
+      fullPath: '/app/freelancer'
+      preLoaderRoute: typeof AuthenticatedAppFreelancerRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/app/employer': {
+      id: '/_authenticated/app/employer'
+      path: '/app/employer'
+      fullPath: '/app/employer'
+      preLoaderRoute: typeof AuthenticatedAppEmployerRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/app/gigs/': {
       id: '/_authenticated/app/gigs/'
       path: '/app/gigs'
@@ -267,6 +307,8 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAppEmployerRoute: typeof AuthenticatedAppEmployerRoute
+  AuthenticatedAppFreelancerRoute: typeof AuthenticatedAppFreelancerRoute
   AuthenticatedAppFreelancersRoute: typeof AuthenticatedAppFreelancersRoute
   AuthenticatedAppInvoicesRoute: typeof AuthenticatedAppInvoicesRoute
   AuthenticatedAppMessagesRoute: typeof AuthenticatedAppMessagesRoute
@@ -279,6 +321,8 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAppEmployerRoute: AuthenticatedAppEmployerRoute,
+  AuthenticatedAppFreelancerRoute: AuthenticatedAppFreelancerRoute,
   AuthenticatedAppFreelancersRoute: AuthenticatedAppFreelancersRoute,
   AuthenticatedAppInvoicesRoute: AuthenticatedAppInvoicesRoute,
   AuthenticatedAppMessagesRoute: AuthenticatedAppMessagesRoute,

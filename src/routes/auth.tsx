@@ -29,13 +29,15 @@ function AuthPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      if (data.user) navigate({ to: "/" });
+    supabase.auth.getUser().then(async ({ data }) => {
+      if (!data.user) return;
+      const { data: p } = await supabase.from("profiles").select("role").eq("id", data.user.id).maybeSingle();
+      navigate({ to: p?.role === "employer" ? "/app/employer" : "/app/freelancer" });
     });
   }, [navigate]);
 
-  async function goHome() {
-    navigate({ to: "/" });
+  async function goRoleHome(r: "freelancer" | "employer") {
+    navigate({ to: r === "employer" ? "/app/employer" : "/app/freelancer" });
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -53,11 +55,13 @@ function AuthPage() {
         });
         if (error) throw error;
         toast.success("Welcome to InstaGig!");
-        await goHome();
+        await goRoleHome(role);
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        await goHome();
+        const { data: u } = await supabase.auth.getUser();
+        const { data: p } = await supabase.from("profiles").select("role").eq("id", u.user!.id).maybeSingle();
+        await goRoleHome((p?.role as "freelancer" | "employer") ?? "freelancer");
       }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Something went wrong");
