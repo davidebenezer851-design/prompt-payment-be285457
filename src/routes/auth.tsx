@@ -29,13 +29,15 @@ function AuthPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      if (data.user) navigate({ to: "/" });
+    supabase.auth.getUser().then(async ({ data }) => {
+      if (!data.user) return;
+      const { data: p } = await supabase.from("profiles").select("role").eq("id", data.user.id).maybeSingle();
+      navigate({ to: p?.role === "employer" ? "/app/employer" : "/app/freelancer" });
     });
   }, [navigate]);
 
-  async function goHome() {
-    navigate({ to: "/" });
+  async function goRoleHome(r: "freelancer" | "employer") {
+    navigate({ to: r === "employer" ? "/app/employer" : "/app/freelancer" });
   }
 
   async function handleSubmit(e: React.FormEvent) {
