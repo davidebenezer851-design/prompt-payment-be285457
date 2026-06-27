@@ -15,6 +15,8 @@ export const Route = createFileRoute("/_authenticated")({
 
 const NAV: { to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }[] = [
   { to: "/app", label: "Dashboard", icon: LayoutDashboard, exact: true },
+  { to: "/app/freelancer", label: "Freelancer Hub", icon: Briefcase },
+  { to: "/app/employer", label: "Employer Hub", icon: Users },
   { to: "/app/gigs", label: "Browse Gigs", icon: Briefcase },
   { to: "/app/freelancers", label: "Talent", icon: Users },
   { to: "/app/messages", label: "Messages", icon: MessageSquare },
