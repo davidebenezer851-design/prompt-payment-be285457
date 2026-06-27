@@ -36,8 +36,23 @@ function AuthPage() {
     });
   }, [navigate]);
 
+  async function waitForSession(maxMs = 3000) {
+    const start = Date.now();
+    while (Date.now() - start < maxMs) {
+      const { data } = await supabase.auth.getSession();
+      if (data.session) return data.session;
+      await new Promise((r) => setTimeout(r, 100));
+    }
+    return null;
+  }
+
   async function goRoleHome(r: "freelancer" | "employer") {
-    navigate({ to: r === "employer" ? "/app/employer" : "/app/freelancer" });
+    const session = await waitForSession();
+    if (!session) {
+      toast.message("Check your email to confirm, then sign in.");
+      return;
+    }
+    navigate({ to: r === "employer" ? "/app/employer" : "/app/freelancer", replace: true });
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -45,7 +60,7 @@ function AuthPage() {
     setLoading(true);
     try {
       if (mode === "signup") {
-        const { data, error } = await supabase.auth.signUp({
+        const { error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -59,9 +74,13 @@ function AuthPage() {
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        const { data: u } = await supabase.auth.getUser();
-        const { data: p } = await supabase.from("profiles").select("role").eq("id", u.user!.id).maybeSingle();
-        await goRoleHome((p?.role as "freelancer" | "employer") ?? "freelancer");
+        const session = await waitForSession();
+        let chosen: "freelancer" | "employer" = "freelancer";
+        if (session) {
+          const { data: p } = await supabase.from("profiles").select("role").eq("id", session.user.id).maybeSingle();
+          chosen = (p?.role as "freelancer" | "employer") ?? (session.user.user_metadata?.role as "freelancer" | "employer") ?? "freelancer";
+        }
+        await goRoleHome(chosen);
       }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Something went wrong");
