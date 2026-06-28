@@ -1,45 +1,23 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
-
-function getInitials(name: string, email: string) {
-  const src = (name || email || "?").trim();
-  if (!src) return "?";
-  const parts = src.split(/[\s@._-]+/).filter(Boolean);
-  const a = parts[0]?.[0] ?? "";
-  const b = parts[1]?.[0] ?? "";
-  return (a + b).toUpperCase() || src[0].toUpperCase();
-}
+import { UserAvatar } from "@/components/user-avatar";
 
 export function UserBadge() {
-  const [initials, setInitials] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
     let mounted = true;
-    async function load(userId?: string) {
-      const { data } = await supabase.auth.getUser();
-      const user = data.user;
-      if (!mounted) return;
-      if (!user) { setInitials(null); return; }
-      const { data: p } = await supabase.from("profiles").select("display_name").eq("id", user.id).maybeSingle();
-      const name = (p?.display_name as string) || (user.user_metadata?.display_name as string) || "";
-      setInitials(getInitials(name, user.email ?? ""));
-    }
-    load();
-    const { data: sub } = supabase.auth.onAuthStateChange(() => load());
+    supabase.auth.getUser().then(({ data }) => mounted && setUserId(data.user?.id ?? null));
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setUserId(s?.user?.id ?? null));
     return () => { mounted = false; sub.subscription.unsubscribe(); };
   }, []);
 
-  if (!initials) return null;
+  if (!userId) return null;
 
   return (
-    <Link
-      to="/app"
-      aria-label="Open dashboard"
-      title="You're signed in — go to app"
-      className="grid h-9 w-9 place-items-center rounded-full bg-accent text-accent-foreground text-xs font-bold tracking-wide hover:bg-foreground hover:text-background transition-colors"
-    >
-      {initials}
+    <Link to="/app" aria-label="Open dashboard" title="You're signed in — go to app" className="block">
+      <UserAvatar userId={userId} size={36} className="ring-2 ring-transparent hover:ring-accent transition" />
     </Link>
   );
 }
