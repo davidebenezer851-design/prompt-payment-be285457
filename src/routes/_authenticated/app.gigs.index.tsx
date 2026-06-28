@@ -110,7 +110,10 @@ function GigsPage() {
                       <span key={t} className="text-[10px] uppercase tracking-widest px-2 py-0.5 bg-secondary text-muted-foreground">{t}</span>
                     ))}
                   </div>
-                  <p className="mt-3 text-xs text-muted-foreground">Posted by <span className="text-foreground">{profile?.display_name ?? "Anonymous"}</span></p>
+                  <p className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+                    <UserAvatar userId={g.owner_id} size={22} nameFallback={profile?.display_name ?? undefined} />
+                    Posted by <span className="text-foreground">{profile?.display_name ?? "Anonymous"}</span>
+                  </p>
                 </div>
                 <div className="text-right">
                   <p className="display text-2xl text-accent">
