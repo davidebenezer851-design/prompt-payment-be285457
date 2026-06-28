@@ -66,10 +66,9 @@ function GigsPage() {
       </div>
 
       <div className="mt-6 flex flex-wrap gap-3 items-center">
-        <div className="relative flex-1 min-w-[200px]">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search gigs…"
-            className="w-full border border-rule bg-transparent pl-10 pr-3 py-2.5 text-sm outline-none focus:border-accent" />
+        <div className="search-anim flex-1 min-w-[200px] px-3 py-2.5 gap-2">
+          <Search className="h-4 w-4 text-muted-foreground shrink-0" />
+          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search gigs…" className="text-sm" />
         </div>
         <select value={type} onChange={(e) => setType(e.target.value as typeof type)} className="border border-rule bg-background px-3 py-2.5 text-sm focus:border-accent outline-none">
           <option value="all">All types</option>
