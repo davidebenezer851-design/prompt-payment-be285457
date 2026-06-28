@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
 import { Send, Paperclip, FileText } from "lucide-react";
+import { UserAvatar } from "@/components/user-avatar";
 import { toast } from "sonner";
 
 const search = z.object({ c: z.string().optional() });
@@ -105,9 +106,8 @@ function Messages() {
             <button key={c.id} onClick={() => setActiveId(c.id)}
               className={`w-full text-left px-5 py-3 border-b border-rule hover:bg-secondary/40 ${activeId === c.id ? "bg-secondary" : ""}`}>
               <div className="flex items-center gap-3">
-                <div className="h-9 w-9 bg-accent text-accent-foreground grid place-items-center font-display text-sm font-bold">
-                  {(c.other?.display_name ?? "?").charAt(0).toUpperCase()}
-                </div>
+                <UserAvatar userId={c.user_a === me ? c.user_b : c.user_a} size={36} nameFallback={c.other?.display_name ?? undefined} />
+
                 <p className="font-medium text-sm truncate">{c.other?.display_name ?? "User"}</p>
               </div>
             </button>
