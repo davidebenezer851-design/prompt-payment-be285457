@@ -8,7 +8,7 @@ const listeners = new Map<string, Set<(c: Cached) => void>>();
 function subscribe(userId: string, cb: (c: Cached) => void) {
   if (!listeners.has(userId)) listeners.set(userId, new Set());
   listeners.get(userId)!.add(cb);
-  return () => listeners.get(userId)?.delete(cb);
+  return () => { listeners.get(userId)?.delete(cb); };
 }
 
 function emit(userId: string, c: Cached) {
