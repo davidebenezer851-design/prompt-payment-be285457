@@ -53,9 +53,8 @@ function Talent() {
         {people.map((p) => (
           <article key={p.id} className="border border-rule p-5 hover:border-accent transition-colors">
             <div className="flex items-start gap-3">
-              <div className="h-12 w-12 bg-accent text-accent-foreground grid place-items-center font-display text-lg font-bold">
-                {(p.display_name ?? "?").charAt(0).toUpperCase()}
-              </div>
+              <UserAvatar userId={p.id} size={48} nameFallback={p.display_name ?? undefined} />
+
               <div className="flex-1 min-w-0">
                 <p className="font-display text-lg font-semibold truncate">{p.display_name ?? "Anonymous"}</p>
                 <p className="text-xs text-muted-foreground truncate">{p.headline ?? (p.role === "freelancer" ? "Freelancer" : "Employer")}</p>
