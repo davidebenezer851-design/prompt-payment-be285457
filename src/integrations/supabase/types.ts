@@ -232,6 +232,97 @@ export type Database = {
         }
         Relationships: []
       }
+      proposals: {
+        Row: {
+          bid_amount: number | null
+          cover_letter: string
+          created_at: string
+          freelancer_id: string
+          gig_id: string
+          id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          bid_amount?: number | null
+          cover_letter: string
+          created_at?: string
+          freelancer_id: string
+          gig_id: string
+          id?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          bid_amount?: number | null
+          cover_letter?: string
+          created_at?: string
+          freelancer_id?: string
+          gig_id?: string
+          id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "proposals_gig_id_fkey"
+            columns: ["gig_id"]
+            isOneToOne: false
+            referencedRelation: "gigs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      transactions: {
+        Row: {
+          amount: number
+          counterparty_id: string | null
+          created_at: string
+          currency: string
+          gig_id: string | null
+          id: string
+          kind: string
+          reference: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          counterparty_id?: string | null
+          created_at?: string
+          currency?: string
+          gig_id?: string | null
+          id?: string
+          kind?: string
+          reference?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          counterparty_id?: string | null
+          created_at?: string
+          currency?: string
+          gig_id?: string | null
+          id?: string
+          kind?: string
+          reference?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transactions_gig_id_fkey"
+            columns: ["gig_id"]
+            isOneToOne: false
+            referencedRelation: "gigs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
