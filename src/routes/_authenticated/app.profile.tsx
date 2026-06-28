@@ -63,6 +63,7 @@ function ProfilePage() {
     const url = signed?.signedUrl ?? null;
     await supabase.from("profiles").update({ avatar_url: url }).eq("id", u.user.id);
     setAvatarUrl(url);
+    broadcastProfile(u.user.id, { avatar_url: url, display_name: display_name || null });
     toast.success("Avatar updated");
   }
 
