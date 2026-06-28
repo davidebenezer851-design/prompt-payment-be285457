@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useState } from "react";
 import { Plus, Search, MessageSquare } from "lucide-react";
+import { UserAvatar } from "@/components/user-avatar";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 
