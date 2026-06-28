@@ -4,6 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
 import { Send, Paperclip, FileText } from "lucide-react";
+import { UserAvatar } from "@/components/user-avatar";
 import { toast } from "sonner";
 
 const search = z.object({ c: z.string().optional() });
