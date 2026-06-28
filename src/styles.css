@@ -192,3 +192,33 @@
     100% { left: 6%;  transform: translateY(0); }
   }
 }
+
+@layer components {
+  .search-anim {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--rule, hsl(0 0% 100% / 0.12));
+    background: color-mix(in oklab, var(--background) 88%, transparent);
+    transition: border-color .35s ease, box-shadow .35s ease, background .35s ease;
+  }
+  .search-anim:focus-within {
+    border-color: var(--accent);
+    background: color-mix(in oklab, var(--accent) 6%, var(--background));
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 25%, transparent),
+                0 8px 30px -10px color-mix(in oklab, var(--accent) 60%, transparent);
+  }
+  .search-anim svg { transition: transform .35s ease, color .35s ease; }
+  .search-anim:focus-within svg { transform: scale(1.15) rotate(-6deg); color: var(--accent); }
+  .search-anim input {
+    background: transparent; border: 0; outline: 0; width: 100%;
+    transition: letter-spacing .35s ease;
+  }
+  .search-anim:focus-within input { letter-spacing: 0.01em; }
+  .search-anim::after {
+    content: ""; position: absolute; left: 12%; right: 12%; bottom: -1px; height: 2px;
+    background: var(--accent); transform: scaleX(0); transform-origin: center;
+    transition: transform .45s cubic-bezier(.2,.8,.2,1);
+  }
+  .search-anim:focus-within::after { transform: scaleX(1); }
+}
